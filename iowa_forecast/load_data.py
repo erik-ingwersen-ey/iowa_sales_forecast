@@ -432,6 +432,11 @@ def create_future_data_query(
             LAG(COALESCE(total_amount_sold, 0), 7) OVER (PARTITION BY item_name ORDER BY date) AS lag_7_total_amount_sold
         FROM
             training_data
+            WHERE
+                total_amount_sold IS NOT NULL
+                AND avg_bottle_price IS NOT NULL
+                AND avg_bottle_cost IS NOT NULL
+                AND total_volume_sold_liters IS NOT NULL
     ),
     final_features AS (
         SELECT
@@ -444,6 +449,13 @@ def create_future_data_query(
             AVG(COALESCE(avg_bottle_price, 0)) OVER (PARTITION BY item_name ORDER BY date ROWS BETWEEN 29 PRECEDING AND CURRENT ROW) AS ma30_avg_bottle_price
         FROM
             lag_features
+    ),
+    deduplicated_final_features AS (
+        SELECT
+            *,
+            ROW_NUMBER() OVER (PARTITION BY date, item_name ORDER BY date) AS row_num
+        FROM
+            final_features
     )
     SELECT
         date,
@@ -469,6 +481,12 @@ def create_future_data_query(
         CAST(lag_7_total_amount_sold AS INT64) AS lag_7_total_amount_sold
     FROM
         final_features
+    WHERE
+        EXTRACT(DAYOFWEEK FROM date) IS NOT NULL
+        AND EXTRACT(WEEK FROM date) IS NOT NULL
+        AND EXTRACT(MONTH FROM date)  IS NOT NULL
+        AND EXTRACT(YEAR FROM date) IS NOT NULL
+        AND row_num = 1
     ORDER BY item_name, date
     )
     """
