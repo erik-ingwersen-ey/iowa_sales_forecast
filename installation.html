@@ -262,10 +262,10 @@
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">¶</a></h2>
 <p>Before you begin, ensure you have the following installed:</p>
 <ul class="simple">
-<li><p>[Python 3.9](<a class="reference external" href="https://www.python.org/downloads/release/python-390/">https://www.python.org/downloads/release/python-390/</a>) or higher</p></li>
-<li><p>[Google Cloud SDK (gcloud)](<a class="reference external" href="https://cloud.google.com/sdk/docs/install">https://cloud.google.com/sdk/docs/install</a>) installed and configured</p></li>
-<li><p>[Docker](<a class="reference external" href="https://www.docker.com/">https://www.docker.com/</a>) (for containerized environments)</p></li>
-<li><p>[Git](<a class="reference external" href="https://git-scm.com/">https://git-scm.com/</a>) (for cloning the repository)</p></li>
+<li><p><a class="reference external" href="https://www.python.org/downloads/release/python-390/">Python 3.9</a> or higher</p></li>
+<li><p><a class="reference external" href="https://cloud.google.com/sdk/docs/install)">Google Cloud SDK (gcloud)</a> installed and configured</p></li>
+<li><p><a class="reference external" href="https://www.docker.com/">Docker</a> (for containerized environments)</p></li>
+<li><p><a class="reference external" href="https://git-scm.com/">Git</a> (for cloning the repository)</p></li>
 </ul>
 </section>
 <section id="python-dependencies">
@@ -284,7 +284,7 @@ Follow these steps to set up your Google Cloud environment:</p>
 <ol class="arabic">
 <li><dl class="simple">
 <dt><strong>Create a Google Cloud Project</strong>:</dt><dd><ul class="simple">
-<li><p>Go to the [Google Cloud Console](<a class="reference external" href="https://console.cloud.google.com/">https://console.cloud.google.com/</a>).</p></li>
+<li><p>Go to the <a class="reference external" href="https://console.cloud.google.com/">Google Cloud Console</a>.</p></li>
 <li><p>Create a new project or select an existing one.</p></li>
 </ul>
 </dd>
@@ -292,14 +292,14 @@ Follow these steps to set up your Google Cloud environment:</p>
 </li>
 <li><dl class="simple">
 <dt><strong>Enable the BigQuery API</strong>:</dt><dd><ul class="simple">
-<li><p>Navigate to [BigQuery API](<a class="reference external" href="https://console.cloud.google.com/bigquery">https://console.cloud.google.com/bigquery</a>) and enable it for your project.</p></li>
+<li><p>Navigate to <a class="reference external" href="https://console.cloud.google.com/bigquery">BigQuery API</a> and enable it for your project.</p></li>
 </ul>
 </dd>
 </dl>
 </li>
 <li><dl>
 <dt><strong>Set up Authentication</strong>:</dt><dd><ul class="simple">
-<li><p>Navigate to [IAM Service Accounts](<a class="reference external" href="https://console.cloud.google.com/iam-admin/serviceaccounts">https://console.cloud.google.com/iam-admin/serviceaccounts</a>)
+<li><p>Navigate to <a class="reference external" href="https://console.cloud.google.com/iam-admin/serviceaccounts">IAM Service Accounts</a>
 and create a service account in your project.</p></li>
 <li><p>In the projects service accounts page, click on the service account
 you’ve created and then navigate to the “Keys” tab.</p></li>
@@ -309,9 +309,9 @@ key file</p></li>
 <li><p>Set the <code class="code docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> environment variable to the
 path of this file:</p></li>
 </ul>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">export</span> <span class="pre">GOOGLE_APPLICATION_CREDENTIALS=&quot;/path/to/your/service-account-file.json&quot;</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span><span class="s2">&quot;/path/to/your/service-account-file.json&quot;</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </li>
@@ -331,18 +331,18 @@ path of this file:</p></li>
 <li><p><strong>Build the Docker Image</strong>:</p>
 <blockquote>
 <div><p>In the root directory of the project, run:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">docker</span> <span class="pre">build</span> <span class="pre">-t</span> <span class="pre">iowa-liquor-sales-forecast</span> <span class="pre">.</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>iowa-liquor-sales-forecast<span class="w"> </span>.
+</pre></div>
+</div>
 </div></blockquote>
 </li>
 <li><p><strong>Run the Docker Container</strong>:</p>
 <blockquote>
 <div><p>Start the container with:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">docker</span> <span class="pre">run</span> <span class="pre">-it</span> <span class="pre">--rm</span> <span class="pre">-e</span> <span class="pre">GOOGLE_APPLICATION_CREDENTIALS=&quot;/path/to/your/service-account-file.json&quot;</span> <span class="pre">\</span>
-<span class="pre">-v</span> <span class="pre">$(pwd):/app</span> <span class="pre">iowa-liquor-sales-forecast</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>-e<span class="w"> </span><span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span><span class="s2">&quot;/path/to/your/service-account-file.json&quot;</span><span class="w"> </span><span class="se">\</span>
+-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>:/app<span class="w"> </span>iowa-liquor-sales-forecast
+</pre></div>
+</div>
 <p>Replace <code class="code docutils literal notranslate"><span class="pre">/path/to/your/service-account-file.json</span></code> with the actual path to your credentials file.
 The <code class="code docutils literal notranslate"><span class="pre">-v</span> <span class="pre">$(pwd):/app</span></code> option mounts the current directory inside the container.</p>
 </div></blockquote>
@@ -357,19 +357,19 @@ you can start using the project. Here’s how:</p>
 <li><p><strong>Clone the Repository</strong>:</p>
 <blockquote>
 <div><p>If you haven’t already, clone the project repository:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">git</span> <span class="pre">clone</span> <span class="pre">https://github.com/yourusername/iowa-liquor-sales-forecast.git</span>
-<span class="pre">cd</span> <span class="pre">iowa-liquor-sales-forecast</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/erik-ingwersen-ey/iowa-liquor-sales-forecast.git
+<span class="nb">cd</span><span class="w"> </span>iowa-liquor-sales-forecast
+</pre></div>
+</div>
 </div></blockquote>
 </li>
 <li><p><strong>Run the Pipeline Script</strong>:</p>
 <blockquote>
 <div><p>Execute the <code class="code docutils literal notranslate"><span class="pre">train_model_and_forecast_sales.py</span></code> script to train the
 models and start generating forecasts:</p>
-<p><code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">python</span> <span class="pre">pipelines/train_model_and_forecast_sales.py</span>
-<span class="pre">`</span></code></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>pipelines/train_model_and_forecast_sales.py
+</pre></div>
+</div>
 <div class="admonition attention">
 <p class="admonition-title">Attention</p>
 <p>Make sure your environment variables are set correctly before running the script.</p>
@@ -404,7 +404,7 @@ models and start generating forecasts:</p>
 </dl>
 </li>
 </ul>
-<p>For further assistance, refer to the project’s [documentation](index.html).</p>
+<p>For further assistance, refer to the project’s <a class="reference external" href="index.html">documentation</a>.</p>
 </section>
 </section>
 
