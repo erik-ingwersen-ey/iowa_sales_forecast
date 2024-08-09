@@ -32,17 +32,27 @@ include = [
 [tool.poetry.dependencies]
 python = '>=3.8,<3.11'
 
-pandas = "2.0.3"
-numpy = "1.24.4"
-google-cloud-bigquery-storage = "^2.25.0"
-google-cloud-bigquery = "^3.25.0"
 db-dtypes = "^1.2.0"
+google-cloud-bigquery = "^3.25.0"
+google-cloud-bigquery-storage = "^2.25.0"
+google-cloud-logging = "^3.11.1"
 matplotlib = "3.6.0"
-seaborn = "^0.13.2"
-python-dateutil = "^2.9.0.post0"
-scipy = "1.10.1"
-rich = "^13.7.1"
+numpy = "1.24.4"
+pandas = "2.0.3"
 plotly = "^5.23.0"
+python-dateutil = "^2.9.0.post0"
+rich = "^13.7.1"
+scipy = "1.10.1"
+seaborn = "^0.13.2"
+google-cloud-iam = "^2.15.2"
+pylint = "2.15.10"
+sphinx = "7.1.2"
+myst-parser = "3.0.1"
+sphinx-click = "^6.0.0"
+sphinx-inline-tabs = "^2023.4.21"
+numpydoc = "^1.7.0"
+sphinx-pyreverse = "^0.0.18"
+furo = "^2024.8.6"
 
 [tool.poetry.scripts]
 poetry = 'poetry.console:run'

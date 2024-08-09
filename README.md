@@ -1,63 +1,103 @@
-# Cloud Run Hello World with Cloud Code
+# Iowa Liquor Sales Forecast
 
-"Hello World" is a [Cloud Run](https://cloud.google.com/run/docs) application that renders a simple webpage.
+This repository contains the functions created to generate a sales forecasting
+model that predicts sales based on the historical data of liquor purchases from
+the state of Iowa.
 
-For details on how to use this sample as a template in Cloud Code, read the documentation for Cloud Code for [VS Code](https://cloud.google.com/code/docs/vscode/quickstart-cloud-run?utm_source=ext&utm_medium=partner&utm_campaign=CDR_kri_gcp_cloudcodereadmes_012521&utm_content=-) or [IntelliJ](https://cloud.google.com/code/docs/intellij/quickstart-cloud-run?utm_source=ext&utm_medium=partner&utm_campaign=CDR_kri_gcp_cloudcodereadmes_012521&utm_content=-).
+The created model consists of a multivariate ARIMA model that includes
+relevant features such as moving averages of key columns from the dataset, 
+lag columns and weather forecast information.
 
-### Table of Contents
-* [Getting Started with VS Code](#getting-started-with-vs-code)
-* [Getting Started with IntelliJ](#getting-started-with-intellij)
-* [Sign up for User Research](#sign-up-for-user-research)
+All data used to train the model was obtained from the library
+of `BigQuery` public datasets.
 
----
-## Getting Started with VS Code
+All the datasets and models created are stored inside BigQuery. Therefore, 
+to run this solution and generate the sales forecasts, you need to register an
+account in Google Cloud. Then you have to create a new project, enable the 
+BigQuery service to your account and configure your credentials.
 
-### Run the application locally with the Cloud Run Emulator
-1. Click on the Cloud Code status bar and select 'Run on Cloud Run Emulator'.
-![image](./img/status-bar.png)
+## Forecast Results
 
-2. Use the Cloud Run Emulator dialog to specify your [builder option](https://cloud.google.com/code/docs/vscode/deploying-a-cloud-run-app#deploying_a_cloud_run_service). Cloud Code supports `Docker`, `Jib`, and `Buildpacks`.
-   See the skaffold documentation on [builders](https://skaffold.dev/docs/pipeline-stages/builders/)
-   for more information about build artifact types.  
-![image](./img/build-config.png)
+A report with the latest forecast results can be found at:
+[Iowa Liquor Sales Forecast Report](https://lookerstudio.google.com/reporting/df348e6b-5d25-47bd-ae51-d7d40906a73b)
 
-3. Click `Run`. Cloud Code begins building your image.
+## Code Walkthrough
 
-4. View the build progress in the _OUTPUT_ window.
-   Once the build has finished, click on the URL in the _OUTPUT_ window to view
-   your live application.  
-![image](./img/cloud-run-url.png)
+You can find a step-by-step walkthrough of the entire solution, including 
+the data extraction, feature engineering, and transformation, model training
+and evaluation, as well as forecasting future sales at:
+[notebooks/Walkthrough.ipynb](./notebooks/Walkthrough.ipynb)
 
-5. To stop the application, click the stop icon on the Debug Toolbar.
+## Pipelines
 
----
+The [pipelines](./pipelines) folder contains scripts that can be used as
+entrypoints to perform several tasks related to the solution.
 
-## Getting Started with IntelliJ
+## Additional Information
 
-### Run the application locally with the Cloud Run Emulator
+### Docker Container
 
-#### Define run configuration
+The [Dockerfile](./Dockerfile) defines the Docker container configuration to
+replicate the environment used to develop and run the forecasting model.
+By using this Docker container, you can ensure that the code runs consistently
+across different environments. 
 
-1. Click the Run/Debug configurations dropdown on the top taskbar and select 'Edit Configurations'.  
-![image](./img/edit-config.png)
+To build and run the Docker container, you can use the following commands:
 
-2. Select 'Cloud Run: Run Locally' and specify your [builder option](https://cloud.google.com/code/docs/intellij/developing-a-cloud-run-app#defining_your_run_configuration). Cloud Code supports Docker, Jib, and Buildpacks. See the skaffold documentation on [builders](https://skaffold.dev/docs/pipeline-stages/builders/) for more information about build artifact types.  
-![image](./img/local-build-config.png)
+* **Build the Docker image:**
+    
+  ```bash
+  docker build -t iowa-liquor-sales-forecast .
+  ```
 
-#### Run the application
-1. Click the Run/Debug configurations dropdown and select 'Cloud Run: Run Locally'. Click the run icon.  
-![image](./img/config-run-locally.png)
+* **Run the Docker container:**
+    
+  ```bash
+  docker run -it --rm iowa-liquor-sales-forecast
+  ```
 
-2. View the build process in the output window. Once the build has finished, you will receive a notification from the Event Log. Click 'View' to access the local URLs for your deployed services.  
-![image](./img/local-success.png)
+### Environment Variables
 
----
-## Sign up for User Research
+The solution relies on a few environment variables that need to be set up for proper operation.
+These include:
 
-We want to hear your feedback!
+- `GOOGLE_APPLICATION_CREDENTIALS`: Path to the JSON file that contains your Google Cloud service account credentials.
+- `PROJECT_ID`: The ID of your Google Cloud project.
+- `DATASET_ID`: The ID of the BigQuery dataset where the data is stored.
 
-The Cloud Code team is inviting our user community to sign-up to participate in Google User Experience Research. 
+You can set these environment variables in your shell or define them in a `.env` file,
+which will be automatically loaded when running the Docker container or scripts.
 
-If you’re invited to join a study, you may try out a new product or tell us what you think about the products you use every day. At this time, Google is only sending invitations for upcoming remote studies. Once a study is complete, you’ll receive a token of thanks for your participation such as a gift card or some Google swag. 
+### Testing
 
-[Sign up using this link](https://google.qualtrics.com/jfe/form/SV_4Me7SiMewdvVYhL?reserved=1&utm_source=In-product&Q_Language=en&utm_medium=own_prd&utm_campaign=Q1&productTag=clou&campaignDate=January2021&referral_code=UXbT481079) and answer a few questions about yourself, as this will help our research team match you to studies that are a great fit.
+The repository includes a suite of tests to ensure that the code behaves as expected.
+You can run the tests using `pytest`:
+
+```bash
+# Run tests
+pytest tests/
+```
+
+### Continuous Integration
+
+This repository is set up with a Continuous Integration (CI) pipeline using GitHub Actions.
+The CI pipeline is configured to run the tests automatically whenever code is pushed to the
+repository or a pull request is created. This helps to ensure that new changes do not break existing
+functionality.
+
+
+### License
+
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
+
+
+### Codebase Static Test Results
+
+The `iowa_forecast` package received the following pylint scores:
+
+* `iowa_forecast/ml_train.py`: 10.0
+* `iowa_forecast/plots.py`: 9.8
+* `iowa_forecast/utils.py`: 9.65
+* `iowa_forecast/load_data.py`: 9.28
+* `iowa_forecast/ml_eval.py`: 8.41
+
