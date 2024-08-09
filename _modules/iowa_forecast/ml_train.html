@@ -1,0 +1,686 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" />
+
+    <!-- Generated with Sphinx 7.1.2 and Furo 2024.08.06 -->
+        <title>iowa_forecast.ml_train - Iowa Liquor Sales Forecast 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo.css?v=354aac6f" />
+    <link rel="stylesheet" type="text/css" href="../../_static/tabs.css?v=4c969af8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/furo-extensions.css?v=302659d7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=44c88a81" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../../index.html"><div class="brand">Iowa Liquor Sales Forecast 0.0.1 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../../index.html">
+  
+  
+  
+</a><form class="sidebar-search-container" method="get" action="../../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../api_reference/index.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of API Reference</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../api_reference/iowa_forecast/index.html">iowa_forecast</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of iowa_forecast</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/load_data.html">load_data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/ml_eval.html">ml_eval</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/ml_train.html">ml_train</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/plots.html">plots</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/utils.html">utils</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <h1>Source code for iowa_forecast.ml_train</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">BigQuery Model Training and Execution Module.</span>
+
+<span class="sd">This module provides functionality for creating, executing, and managing</span>
+<span class="sd">&#39;ARIMA_PLUS_XREG&#39; models using Google BigQuery. The module includes</span>
+<span class="sd">functions to generate SQL queries for creating models, executing these</span>
+<span class="sd">queries with retries, and evaluating model performance.</span>
+
+<span class="sd">Functions</span>
+<span class="sd">---------</span>
+<span class="sd">* `create_model_query`: Generate an SQL query to create an ARIMA_PLUS_XREG model</span>
+<span class="sd">  for a specified item and its associated data.</span>
+
+<span class="sd">* `execute_query_with_retries`: Execute a given SQL query with retry logic in case of failure.</span>
+
+<span class="sd">* `create_models_for_items`: Create &#39;ARIMA_PLUS_XREG&#39; models for a list of items</span>
+<span class="sd">  by executing generated SQL queries.</span>
+
+<span class="sd">* `train_arima_models`: Train ARIMA models for specified columns,</span>
+<span class="sd">  executes the corresponding SQL queries, and stores the model metrics in BigQuery tables.</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">This module is designed to work with Google BigQuery and requires a valid</span>
+<span class="sd">BigQuery client instance. The models generated by this module are intended</span>
+<span class="sd">for forecasting time series data, with options to handle holiday effects,</span>
+<span class="sd">step changes, and data cleaning.</span>
+
+<span class="sd">See Also</span>
+<span class="sd">--------</span>
+<span class="sd">Google BigQuery: https://cloud.google.com/bigquery</span>
+<span class="sd">BigQuery ML: https://cloud.google.com/bigquery-ml</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">bigquery</span>  <span class="c1"># pylint: disable=no-name-in-module</span>
+<span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
+
+<span class="kn">from</span> <span class="nn">iowa_forecast.utils</span> <span class="kn">import</span> <span class="n">normalize_item_name</span>
+
+
+<div class="viewcode-block" id="create_model_query"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_train.create_model_query">[docs]</a><span class="k">def</span> <span class="nf">create_model_query</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
+    <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">timestamp_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span>
+    <span class="n">time_series_data_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;total_amount_sold&quot;</span><span class="p">,</span>
+    <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.arima_plus_xreg_model&quot;</span><span class="p">,</span>
+    <span class="n">train_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.training_data&quot;</span><span class="p">,</span>
+    <span class="n">test_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.test_data&quot;</span><span class="p">,</span>
+    <span class="n">holiday_region</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;US&quot;</span><span class="p">,</span>
+    <span class="n">auto_arima</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">adjust_step_changes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">clean_spikes_and_dips</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a BigQuery &#39;CREATE MODEL&#39; query for a specified item.</span>
+
+<span class="sd">    This function constructs an SQL query to create an ARIMA_PLUS_XREG</span>
+<span class="sd">    model in BigQuery, tailored for the provided item and its associated</span>
+<span class="sd">    data.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    item_name : str</span>
+<span class="sd">        Name of the item for which the model is to be created.</span>
+<span class="sd">    timestamp_col : str, default=&quot;date&quot;</span>
+<span class="sd">        The column name representing the timestamp in the dataset.</span>
+<span class="sd">    time_series_data_col : str, default=&quot;total_amount_sold&quot;</span>
+<span class="sd">        The column name representing the time series data.</span>
+<span class="sd">    model_name : str, default=&quot;bqmlforecast.arima_plus_xreg_model&quot;</span>
+<span class="sd">        The base name for the model.</span>
+<span class="sd">    train_table_name : str, default=&quot;bqmlforecast.training_data&quot;</span>
+<span class="sd">        The name of the table containing training data.</span>
+<span class="sd">    test_table_name : str, default=&quot;bqmlforecast.test_data&quot;</span>
+<span class="sd">        The name of the table containing test data.</span>
+<span class="sd">    holiday_region : str, default=&quot;US&quot;</span>
+<span class="sd">        The holiday region to be used by the model.</span>
+<span class="sd">    auto_arima : bool, default=True</span>
+<span class="sd">        Whether to enable AUTO_ARIMA.</span>
+<span class="sd">    adjust_step_changes : bool, default=True</span>
+<span class="sd">        Whether to adjust for step changes in the data.</span>
+<span class="sd">    clean_spikes_and_dips : bool, default=True</span>
+<span class="sd">        Whether to clean spikes and dips in the data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        A SQL query string for creating the specified model.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">item_name_norm</span> <span class="o">=</span> <span class="n">normalize_item_name</span><span class="p">(</span><span class="n">item_name</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    CREATE OR REPLACE MODEL `</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">item_name_norm</span><span class="si">}</span><span class="s2">`</span>
+<span class="s2">    OPTIONS(</span>
+<span class="s2">      MODEL_TYPE=&#39;ARIMA_PLUS_XREG&#39;,</span>
+<span class="s2">      TIME_SERIES_TIMESTAMP_COL=&#39;</span><span class="si">{</span><span class="n">timestamp_col</span><span class="si">}</span><span class="s2">&#39;,</span>
+<span class="s2">      TIME_SERIES_DATA_COL=&#39;</span><span class="si">{</span><span class="n">time_series_data_col</span><span class="si">}</span><span class="s2">&#39;,</span>
+<span class="s2">      HOLIDAY_REGION=&#39;</span><span class="si">{</span><span class="n">holiday_region</span><span class="si">}</span><span class="s2">&#39;,</span>
+<span class="s2">      AUTO_ARIMA=</span><span class="si">{</span><span class="n">auto_arima</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">      ADJUST_STEP_CHANGES=</span><span class="si">{</span><span class="n">adjust_step_changes</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">      CLEAN_SPIKES_AND_DIPS=</span><span class="si">{</span><span class="n">clean_spikes_and_dips</span><span class="si">}</span>
+<span class="s2">    ) AS</span>
+<span class="s2">    SELECT</span>
+<span class="s2">        *</span>
+<span class="s2">    FROM</span>
+<span class="s2">        `</span><span class="si">{</span><span class="n">train_table_name</span><span class="si">}</span><span class="s2">`</span>
+<span class="s2">    WHERE</span>
+<span class="s2">        item_name = &quot;</span><span class="si">{</span><span class="n">item_name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="s2">    UNION ALL</span>
+<span class="s2">        (</span>
+<span class="s2">            SELECT</span>
+<span class="s2">                *</span>
+<span class="s2">            FROM (</span>
+<span class="s2">                SELECT</span>
+<span class="s2">                    t2.*</span>
+<span class="s2">                FROM</span>
+<span class="s2">                    `</span><span class="si">{</span><span class="n">test_table_name</span><span class="si">}</span><span class="s2">` AS  t2</span>
+<span class="s2">                JOIN</span>
+<span class="s2">                    (</span>
+<span class="s2">                        SELECT</span>
+<span class="s2">                            item_name,</span>
+<span class="s2">                            MAX(</span><span class="si">{</span><span class="n">timestamp_col</span><span class="si">}</span><span class="s2">) AS max_date</span>
+<span class="s2">                        FROM</span>
+<span class="s2">                            `</span><span class="si">{</span><span class="n">train_table_name</span><span class="si">}</span><span class="s2">`</span>
+<span class="s2">                        GROUP BY</span>
+<span class="s2">                            item_name</span>
+<span class="s2">                    ) AS md</span>
+<span class="s2">                ON</span>
+<span class="s2">                    t2.item_name = md.item_name</span>
+<span class="s2">                WHERE</span>
+<span class="s2">                    t2.</span><span class="si">{</span><span class="n">timestamp_col</span><span class="si">}</span><span class="s2"> &gt; md.max_date</span>
+<span class="s2">                    AND t2.item_name = &quot;</span><span class="si">{</span><span class="n">item_name</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="s2">            )</span>
+<span class="s2">        )</span>
+<span class="s2">    ORDER BY</span>
+<span class="s2">        date</span>
+<span class="s2">    &quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="execute_query_with_retries"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_train.execute_query_with_retries">[docs]</a><span class="k">def</span> <span class="nf">execute_query_with_retries</span><span class="p">(</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
+    <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">max_retries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Execute a BigQuery SQL query with retries on failure.</span>
+
+<span class="sd">    This function executes a given SQL query using a BigQuery client.</span>
+<span class="sd">    If the query fails, it will automatically retry up to `max_retries`</span>
+<span class="sd">    times, with an increasing delay between each attempt.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    client : bigquery.Client</span>
+<span class="sd">        Instance of the BigQuery client used to execute the query.</span>
+<span class="sd">    query : str</span>
+<span class="sd">        The SQL query to be executed.</span>
+<span class="sd">    max_retries : int, default=3</span>
+<span class="sd">        Maximum number of retry attempts in case of query failure.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    Exception</span>
+<span class="sd">        Raises an exception if all retry attempts fail.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The delay between retries increases linearly by 120 seconds</span>
+<span class="sd">    multiplied by the current attempt number.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Execute a query with the default number of retries:</span>
+
+<span class="sd">    &gt;&gt;&gt; client = bigquery.Client()</span>
+<span class="sd">    &gt;&gt;&gt; query = &quot;SELECT * FROM `my_dataset.my_table`&quot;</span>
+<span class="sd">    &gt;&gt;&gt; execute_query_with_retries(client, query)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tries</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">success</span> <span class="ow">and</span> <span class="n">tries</span> <span class="o">&lt;</span> <span class="n">max_retries</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">query_job</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+            <span class="n">query_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
+            <span class="n">tries</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">sleep_time</span> <span class="o">=</span> <span class="mi">120</span> <span class="o">*</span> <span class="n">tries</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Attempt </span><span class="si">{</span><span class="n">tries</span><span class="si">}</span><span class="s2"> failed. Sleeping for </span><span class="si">{</span><span class="n">sleep_time</span><span class="si">}</span><span class="s2"> seconds...&quot;</span><span class="p">)</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">sleep_time</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_models_for_items"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_train.create_models_for_items">[docs]</a><span class="k">def</span> <span class="nf">create_models_for_items</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
+    <span class="n">items_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">max_items</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">timestamp_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span>
+    <span class="n">time_series_data_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;total_amount_sold&quot;</span><span class="p">,</span>
+    <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.arima_plus_xreg_model&quot;</span><span class="p">,</span>
+    <span class="n">train_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.training_data&quot;</span><span class="p">,</span>
+    <span class="n">test_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.test_data&quot;</span><span class="p">,</span>
+    <span class="n">holiday_region</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;US&quot;</span><span class="p">,</span>
+    <span class="n">auto_arima</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">adjust_step_changes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">clean_spikes_and_dips</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create ARIMA_PLUS_XREG models for a list of items.</span>
+
+<span class="sd">    This function generates and executes a CREATE MODEL query</span>
+<span class="sd">    for each item in the provided list. The models are created</span>
+<span class="sd">    using the specified training and test tables in BigQuery.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    client : bigquery.Client</span>
+<span class="sd">        Instance of the BigQuery client used to execute queries.</span>
+<span class="sd">    items_list : List[str]</span>
+<span class="sd">        List of item names for which models are to be created.</span>
+<span class="sd">    max_items : int or None, default=None</span>
+<span class="sd">        Maximum number of items to process. If None, all items are processed.</span>
+<span class="sd">        See the &#39;Notes&#39; section for more information.</span>
+<span class="sd">    timestamp_col : str, default=&quot;date&quot;</span>
+<span class="sd">        The column name representing the timestamp in the dataset.</span>
+<span class="sd">    time_series_data_col : str, default=&quot;total_amount_sold&quot;</span>
+<span class="sd">        The column name representing the time series data.</span>
+<span class="sd">    model_name : str, default=&quot;bqmlforecast.arima_plus_xreg_model&quot;</span>
+<span class="sd">        The base name for the models.</span>
+<span class="sd">    train_table_name : str, default=&quot;bqmlforecast.training_data&quot;</span>
+<span class="sd">        The name of the table containing training data.</span>
+<span class="sd">    test_table_name : str, default=&quot;bqmlforecast.test_data&quot;</span>
+<span class="sd">        The name of the table containing test data.</span>
+<span class="sd">    holiday_region : str, default=&quot;US&quot;</span>
+<span class="sd">        The holiday region to be used by the models.</span>
+<span class="sd">    auto_arima : bool, default=True</span>
+<span class="sd">        Whether to enable AUTO_ARIMA.</span>
+<span class="sd">    adjust_step_changes : bool, default=True</span>
+<span class="sd">        Whether to adjust for step changes in the data.</span>
+<span class="sd">    clean_spikes_and_dips : bool, default=True</span>
+<span class="sd">        Whether to clean spikes and dips in the data.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Not specifying a value for `max_items` requires you to use a Google Cloud</span>
+<span class="sd">    account with billing enabled. If you&#39;re not using a Google Cloud account</span>
+<span class="sd">    with billing enabled, then you should limit the number of items</span>
+<span class="sd">    to a value smaller than or equal to 4.</span>
+
+<span class="sd">    .. important::</span>
+
+<span class="sd">        If using a Google Cloud account with billing enabled, running this</span>
+<span class="sd">        code might incur charges.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_items_list</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">items_list</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">max_items</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">else</span> <span class="n">items_list</span><span class="p">[:</span><span class="n">max_items</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">item_name</span> <span class="ow">in</span> <span class="n">track</span><span class="p">(</span><span class="n">_items_list</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Creating models...&quot;</span><span class="p">):</span>
+        <span class="n">query</span> <span class="o">=</span> <span class="n">create_model_query</span><span class="p">(</span>
+            <span class="n">item_name</span><span class="p">,</span>
+            <span class="n">timestamp_col</span><span class="p">,</span>
+            <span class="n">time_series_data_col</span><span class="p">,</span>
+            <span class="n">model_name</span><span class="p">,</span>
+            <span class="n">train_table_name</span><span class="p">,</span>
+            <span class="n">test_table_name</span><span class="p">,</span>
+            <span class="n">holiday_region</span><span class="p">,</span>
+            <span class="n">auto_arima</span><span class="p">,</span>
+            <span class="n">adjust_step_changes</span><span class="p">,</span>
+            <span class="n">clean_spikes_and_dips</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">execute_query_with_retries</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="train_arima_models"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_train.train_arima_models">[docs]</a><span class="k">def</span> <span class="nf">train_arima_models</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-locals, too-many-arguments</span>
+    <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
+    <span class="n">columns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.arima_model&quot;</span><span class="p">,</span>
+    <span class="n">train_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.training_data&quot;</span><span class="p">,</span>
+    <span class="n">test_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.test_data&quot;</span><span class="p">,</span>
+    <span class="n">model_metrics_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.arima_model_metrics&quot;</span><span class="p">,</span>
+    <span class="n">time_series_timestamp_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;date&quot;</span><span class="p">,</span>
+    <span class="n">time_series_id_col</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;item_name&quot;</span><span class="p">,</span>
+    <span class="n">confidence_level</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+    <span class="n">horizon</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Train ARIMA models for a list of columns and store their metrics.</span>
+
+<span class="sd">    This function generates and executes &#39;CREATE MODEL&#39; queries for ARIMA</span>
+<span class="sd">    models using the specified columns, and evaluates their performance</span>
+<span class="sd">    by creating tables of model metrics.</span>
+
+<span class="sd">    These ARIMA models will then be used to generate the future feature values</span>
+<span class="sd">    used for forecasting the liquor sales.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    client : bigquery.Client</span>
+<span class="sd">        Instance of the BigQuery client used to execute queries.</span>
+<span class="sd">    columns : List[str]</span>
+<span class="sd">        List of columns to be used for creating ARIMA models.</span>
+<span class="sd">    model : str, default=&quot;bqmlforecast.arima_model&quot;</span>
+<span class="sd">        The base name for the ARIMA models.</span>
+<span class="sd">    train_table_name : str, default=&quot;bqmlforecast.training_data&quot;</span>
+<span class="sd">        The name of the table containing training data.</span>
+<span class="sd">    test_table_name : str, default=&quot;bqmlforecast.test_data&quot;</span>
+<span class="sd">        The name of the table containing test data.</span>
+<span class="sd">    model_metrics_table_name : str or None, default=&quot;bqmlforecast.arima_model_metrics&quot;</span>
+<span class="sd">        The base name for the tables where model metrics will be stored.</span>
+<span class="sd">    time_series_timestamp_col : str, default=&quot;date&quot;</span>
+<span class="sd">        The column name representing the timestamp in the dataset.</span>
+<span class="sd">    time_series_id_col : str, default=&quot;item_name&quot;</span>
+<span class="sd">        The column name representing the identifier for the time series.</span>
+<span class="sd">    confidence_level : float, default=0.9</span>
+<span class="sd">        The confidence level used in the model evaluation.</span>
+<span class="sd">    horizon : int, default=7</span>
+<span class="sd">        The number of time steps (days) to forecast.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">track</span><span class="p">(</span><span class="n">columns</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Creating ARIMA models...&quot;</span><span class="p">):</span>
+        <span class="n">model_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">train_arima_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        CREATE OR REPLACE MODEL `</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">`</span>
+<span class="s2">        OPTIONS(</span>
+<span class="s2">            MODEL_TYPE = &#39;ARIMA_PLUS&#39;,</span>
+<span class="s2">            AUTO_ARIMA = TRUE,</span>
+<span class="s2">            HORIZON = </span><span class="si">{</span><span class="n">horizon</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">            TIME_SERIES_TIMESTAMP_COL = &#39;</span><span class="si">{</span><span class="n">time_series_timestamp_col</span><span class="si">}</span><span class="s2">&#39;,</span>
+<span class="s2">            TIME_SERIES_DATA_COL = &#39;</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">&#39;,</span>
+<span class="s2">            TIME_SERIES_ID_COL = &#39;</span><span class="si">{</span><span class="n">time_series_id_col</span><span class="si">}</span><span class="s2">&#39;,</span>
+<span class="s2">            FORECAST_LIMIT_LOWER_BOUND = 0,</span>
+<span class="s2">            DECOMPOSE_TIME_SERIES = TRUE,</span>
+<span class="s2">            HOLIDAY_REGION = &#39;US&#39;,</span>
+<span class="s2">            DATA_FREQUENCY = &#39;AUTO_FREQUENCY&#39;,</span>
+<span class="s2">            ADJUST_STEP_CHANGES = TRUE,</span>
+<span class="s2">            CLEAN_SPIKES_AND_DIPS = TRUE</span>
+<span class="s2">        ) AS</span>
+<span class="s2">        SELECT</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">time_series_timestamp_col</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">            </span><span class="si">{</span><span class="n">time_series_id_col</span><span class="si">}</span>
+<span class="s2">        FROM</span>
+<span class="s2">            `</span><span class="si">{</span><span class="n">train_table_name</span><span class="si">}</span><span class="s2">`</span>
+<span class="s2">        UNION ALL</span>
+<span class="s2">            (</span>
+<span class="s2">                SELECT</span>
+<span class="s2">                    *</span>
+<span class="s2">                FROM (</span>
+<span class="s2">                    SELECT</span>
+<span class="s2">                        t2.</span><span class="si">{</span><span class="n">time_series_timestamp_col</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">                        t2.</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">                        t2.</span><span class="si">{</span><span class="n">time_series_id_col</span><span class="si">}</span>
+<span class="s2">                    FROM</span>
+<span class="s2">                        `</span><span class="si">{</span><span class="n">test_table_name</span><span class="si">}</span><span class="s2">` AS  t2</span>
+<span class="s2">                    JOIN</span>
+<span class="s2">                        (</span>
+<span class="s2">                            SELECT</span>
+<span class="s2">                                </span><span class="si">{</span><span class="n">time_series_id_col</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">                                MAX(</span><span class="si">{</span><span class="n">time_series_timestamp_col</span><span class="si">}</span><span class="s2">) AS max_date</span>
+<span class="s2">                            FROM</span>
+<span class="s2">                                `</span><span class="si">{</span><span class="n">train_table_name</span><span class="si">}</span><span class="s2">`</span>
+<span class="s2">                            GROUP BY</span>
+<span class="s2">                                </span><span class="si">{</span><span class="n">time_series_id_col</span><span class="si">}</span><span class="s2">    </span>
+<span class="s2">                        ) AS md</span>
+<span class="s2">                    ON</span>
+<span class="s2">                        t2.</span><span class="si">{</span><span class="n">time_series_id_col</span><span class="si">}</span><span class="s2"> = md.</span><span class="si">{</span><span class="n">time_series_id_col</span><span class="si">}</span>
+<span class="s2">                    WHERE</span>
+<span class="s2">                        t2.</span><span class="si">{</span><span class="n">time_series_timestamp_col</span><span class="si">}</span><span class="s2"> &gt; md.max_date</span>
+<span class="s2">                )</span>
+<span class="s2">            )</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">train_arima_job</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">train_arima_query</span><span class="p">)</span>
+        <span class="n">train_arima_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model_metrics_table_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">model_metrics_query</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            CREATE OR REPLACE TABLE `</span><span class="si">{</span><span class="n">model_metrics_table_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">column</span><span class="si">}</span><span class="s2">` AS (</span>
+<span class="s2">            SELECT</span>
+<span class="s2">                *</span>
+<span class="s2">            FROM</span>
+<span class="s2">                ML.EVALUATE(</span>
+<span class="s2">                    MODEL `</span><span class="si">{</span><span class="n">model_name</span><span class="si">}</span><span class="s2">`,</span>
+<span class="s2">                    (</span>
+<span class="s2">                        SELECT</span>
+<span class="s2">                            </span><span class="si">{</span><span class="n">time_series_timestamp_col</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">                            </span><span class="si">{</span><span class="n">time_series_id_col</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">                            </span><span class="si">{</span><span class="n">column</span><span class="si">}</span>
+<span class="s2">                        FROM</span>
+<span class="s2">                            `</span><span class="si">{</span><span class="n">test_table_name</span><span class="si">}</span><span class="s2">`</span>
+<span class="s2">                    ),</span>
+<span class="s2">                    STRUCT(</span><span class="si">{</span><span class="n">horizon</span><span class="si">}</span><span class="s2"> AS HORIZON, </span><span class="si">{</span><span class="n">confidence_level</span><span class="si">}</span><span class="s2"> AS CONFIDENCE_LEVEL)</span>
+<span class="s2">                )</span>
+<span class="s2">            )</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">model_metrics_job</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">model_metrics_query</span><span class="p">)</span>
+            <span class="n">model_metrics_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span></div>
+</pre></div>
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2024, Erik Ingwersen
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=8df938ec"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/scripts/furo.js?v=5fa4622c"></script>
+    <script src="../../_static/tabs.js?v=3ee01567"></script>
+    </body>
+</html>
