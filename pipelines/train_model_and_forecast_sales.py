@@ -10,9 +10,9 @@ from iowa_forecast.utils import (create_bigquery_table_from_pandas,
                                  create_dataset_if_not_found)
 
 
-PROJECT_ID = os.environ.get("PROJECT_ID", "iowa-liquor-sales-forecast-v2")
+PROJECT_ID = os.environ.get("PROJECT_ID")
 DATASET_NAME = os.environ.get("DATASET_NAME", "bqmlforecast")
-CREDENTIALS_FILE = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "./iowa-sales-forecast-service-account.json")
+CREDENTIALS_FILE = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
 HORIZON = 30  # Days
 
 # Validate the presence of CREDENTIALS_FILE
