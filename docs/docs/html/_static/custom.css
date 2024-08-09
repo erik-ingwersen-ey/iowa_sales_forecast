@@ -12,3 +12,43 @@ code {
     border-radius: .25rem;
     padding: .1rem .25rem;
 }
+
+/* Customize the Parameters section */
+dl.field-list {
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+dl.field-list dt {
+    font-weight: bold;
+    margin-top: 10px;
+    color: #2c3e50;
+}
+
+dl.field-list dd {
+    margin: 5px 0 10px 20px;
+    font-size: 0.95em;
+    line-height: 1.6;
+    color: #34495e;
+}
+
+/* Add custom bullets or icons */
+dl.field-list dt:before {
+    content: "• ";
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* Hover effect for parameters */
+dl.field-list dt:hover {
+    color: #e74c3c;
+    cursor: pointer;
+}
+
+/* Add more spacing between parameters */
+dl.field-list dd + dt {
+    margin-top: 15px;
+}
