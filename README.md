@@ -9,17 +9,24 @@ relevant features such as moving averages of key columns from the dataset,
 lag columns and weather forecast information.
 
 All data used to train the model was obtained from the library
-of `BigQuery` public datasets.
+of [BigQuery public datasets](https://cloud.google.com/bigquery/public-data).
 
-All the datasets and models created are stored inside BigQuery. Therefore, 
-to run this solution and generate the sales forecasts, you need to register an
-account in Google Cloud. Then you have to create a new project, enable the 
-BigQuery service to your account and configure your credentials.
+All the datasets and models created are stored inside **BigQuery**.
+Therefore, to run this solution and generate the sales forecasts,
+you need to [register an account in Google Cloud](https://console.cloud.google.com/).
+Then you have to [create a new project](https://developers.google.com/workspace/guides/create-project),
+[enable the BigQuery service](https://cloud.google.com/bigquery/docs/enable-transfer-service)
+to your account and configure your credentials.
 
 ## Forecast Results
 
 A report with the latest forecast results can be found at:
 [Iowa Liquor Sales Forecast Report](https://lookerstudio.google.com/reporting/df348e6b-5d25-47bd-ae51-d7d40906a73b)
+
+## Documentation
+
+Please refer to the [Iowa Sales Forecast Documentation](https://erik-ingwersen-ey.github.io/iowa_sales_forecast)
+page for more information about the project.
 
 ## Code Walkthrough
 
@@ -78,12 +85,22 @@ You can run the tests using `pytest`:
 pytest tests/
 ```
 
-### Continuous Integration
+### Continuous Integration (CI)
 
 This repository is set up with a Continuous Integration (CI) pipeline using GitHub Actions.
 The CI pipeline is configured to run the tests automatically whenever code is pushed to the
 repository or a pull request is created. This helps to ensure that new changes do not break existing
-functionality.
+functionality. It also contains a pipeline that recreates the documentation 
+for the project and generates a new release of the documentation on GitHub 
+Pages.
+
+Here's the list of currently available pipelines for the project:
+
+* [deploy-docs.yml](./.github/workflows/deploy-docs.yml): deploy
+  documentation to GitHub Pages.
+* [test-code.yml](./.github/workflows/test-code.yml): run the unit-tests 
+  from the [tests](./tests) directory and generate a test coverage report
+  for the project.
 
 
 ### License
@@ -95,9 +112,12 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 
 The `iowa_forecast` package received the following pylint scores:
 
+* `iowa_forecast/__init__.py`: 10.0
+* `iowa_forecast/models_configs.py`: 10.0
 * `iowa_forecast/ml_train.py`: 10.0
 * `iowa_forecast/plots.py`: 9.8
-* `iowa_forecast/utils.py`: 9.65
-* `iowa_forecast/load_data.py`: 9.28
+* `iowa_forecast/utils.py`: 8.99
+* `iowa_forecast/load_data.py`: 9.31
 * `iowa_forecast/ml_eval.py`: 8.41
 
+* **Average Score:** 9.50
