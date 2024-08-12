@@ -257,6 +257,117 @@
         <article role="main" id="furo-main-content">
           <section id="iowa-liquor-sales-forecast">
 <h1>Iowa Liquor Sales Forecast<a class="headerlink" href="#iowa-liquor-sales-forecast" title="Permalink to this heading">¶</a></h1>
+<p>This repository contains the functions created to generate a sales forecasting
+model that predicts sales based on the historical data of liquor purchases from
+the state of Iowa.</p>
+<p>The created model consists of a multivariate ARIMA model that includes
+relevant features such as moving averages of key columns from the dataset,
+lag columns and weather forecast information.</p>
+<p>All data used to train the model was obtained from the library
+of <a class="reference external" href="https://cloud.google.com/bigquery/public-data">BigQuery public datasets</a>.</p>
+<p>All the datasets and models created are stored inside <strong>BigQuery</strong>.
+Therefore, to run this solution and generate the sales forecasts,
+you need to <a class="reference external" href="https://console.cloud.google.com/">register an account in Google Cloud</a>.
+Then you have to <a class="reference external" href="https://developers.google.com/workspace/guides/create-project">create a new project</a>,
+<a class="reference external" href="https://cloud.google.com/bigquery/docs/enable-transfer-service">enable the BigQuery service</a>
+to your account and configure your credentials.</p>
+</section>
+<section id="forecast-results">
+<h1>Forecast Results<a class="headerlink" href="#forecast-results" title="Permalink to this heading">¶</a></h1>
+<p>A report with the latest forecast results can be found at:
+<a class="reference external" href="https://lookerstudio.google.com/reporting/df348e6b-5d25-47bd-ae51-d7d40906a73b">Iowa Liquor Sales Forecast Report</a></p>
+</section>
+<section id="code-walkthrough">
+<h1>Code Walkthrough<a class="headerlink" href="#code-walkthrough" title="Permalink to this heading">¶</a></h1>
+<p>You can find a step-by-step walkthrough of the entire solution, including
+the data extraction, feature engineering, and transformation, model training
+and evaluation, as well as forecasting future sales at:
+<a class="reference external" href="../notebooks/Walkthrough.ipynb">notebooks/Walkthrough.ipynb</a></p>
+</section>
+<section id="pipelines">
+<h1>Pipelines<a class="headerlink" href="#pipelines" title="Permalink to this heading">¶</a></h1>
+<p>The <a class="reference external" href="../pipelines">pipelines</a> folder contains scripts that can be used as
+entrypoints to perform several tasks related to the solution.</p>
+</section>
+<section id="additional-information">
+<h1>Additional Information<a class="headerlink" href="#additional-information" title="Permalink to this heading">¶</a></h1>
+<section id="docker-container">
+<h2>Docker Container<a class="headerlink" href="#docker-container" title="Permalink to this heading">¶</a></h2>
+<p>The <a class="reference external" href="../Dockerfile">Dockerfile</a> defines the Docker container configuration to
+replicate the environment used to develop and run the forecasting model.
+By using this Docker container, you can ensure that the code runs consistently
+across different environments.</p>
+<p>To build and run the Docker container, you can use the following commands:</p>
+<ul>
+<li><p><strong>Build the Docker image:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>iowa-liquor-sales-forecast<span class="w"> </span>.
+</pre></div>
+</div>
+</li>
+<li><p><strong>Run the Docker container:</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--rm<span class="w"> </span>iowa-liquor-sales-forecast
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="environment-variables">
+<h2>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">¶</a></h2>
+<p>The solution relies on a few environment variables that need to be set up for proper operation.
+These include:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code>: Path to the JSON file that contains your Google Cloud service account credentials.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PROJECT_ID</span></code>: The ID of your Google Cloud project.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DATASET_ID</span></code>: The ID of the BigQuery dataset where the data is stored.</p></li>
+</ul>
+<p>You can set these environment variables in your shell or define them in a <code class="docutils literal notranslate"><span class="pre">.env</span></code> file,
+which will be automatically loaded when running the Docker container or scripts.</p>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">¶</a></h2>
+<p>The repository includes a suite of tests to ensure that the code behaves as expected.
+You can run the tests using <code class="docutils literal notranslate"><span class="pre">pytest</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run tests</span>
+pytest<span class="w"> </span>tests/
+</pre></div>
+</div>
+</section>
+<section id="continuous-integration-ci">
+<h2>Continuous Integration (CI)<a class="headerlink" href="#continuous-integration-ci" title="Permalink to this heading">¶</a></h2>
+<p>This repository is set up with a Continuous Integration (CI) pipeline using GitHub Actions.
+The CI pipeline is configured to run the tests automatically whenever code is pushed to the
+repository or a pull request is created. This helps to ensure that new changes do not break existing
+functionality. It also contains a pipeline that recreates the documentation
+for the project and generates a new release of the documentation on GitHub
+Pages.</p>
+<p>Here’s the list of currently available pipelines for the project:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="../.github/workflows/deploy-docs.yml">deploy-docs.yml</a>: deploy
+documentation to GitHub Pages.</p></li>
+<li><p><a class="reference external" href="../.github/workflows/test-code.yml">test-code.yml</a>: run the unit-tests
+from the <a class="reference external" href="../tests">tests</a> directory and generate a test coverage report
+for the project.</p></li>
+</ul>
+</section>
+</section>
+<section id="license">
+<h1>License<a class="headerlink" href="#license" title="Permalink to this heading">¶</a></h1>
+<p>This project is licensed under the MIT License. See the <a class="reference external" href="../LICENSE">LICENSE</a> file for more details.</p>
+</section>
+<section id="codebase-static-test-results">
+<h1>Codebase Static Test Results<a class="headerlink" href="#codebase-static-test-results" title="Permalink to this heading">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">iowa_forecast</span></code> package received the following pylint scores:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iowa_forecast/__init__.py</span></code>: 10.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iowa_forecast/models_configs.py</span></code>: 10.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iowa_forecast/ml_train.py</span></code>: 10.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iowa_forecast/plots.py</span></code>: 9.8</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iowa_forecast/utils.py</span></code>: 8.99</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iowa_forecast/load_data.py</span></code>: 9.31</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">iowa_forecast/ml_eval.py</span></code>: 8.41</p></li>
+<li><p><strong>Average Score:</strong> 9.50</p></li>
+</ul>
+<p>—</p>
 </section>
 <section id="modules">
 <h1>Modules<a class="headerlink" href="#modules" title="Permalink to this heading">¶</a></h1>
