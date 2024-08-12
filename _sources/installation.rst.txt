@@ -1,9 +1,7 @@
-Here's a sample `installation.rst` file tailored to your Iowa Liquor Sales Forecast project:
-
 Installation
 ============
 
-This guide provides instructions on how to install and set up the Iowa Liquor Sales Forecast project.
+This guide provides instructions on how to install and set up the **Iowa Liquor Sales Forecast** project.
 
 Requirements
 ------------
@@ -127,4 +125,4 @@ If you encounter any issues during installation or setup, here are some common s
 - **Docker Issues**:
     - Ensure Docker is running and your system has enough resources allocated to Docker.
 
-For further assistance, refer to the project’s `documentation <index.html>`_.
+For further assistance, refer to the `project’s documentation <https://erik-ingwersen-ey.github.io/iowa_sales_forecast/index.html>`_.
