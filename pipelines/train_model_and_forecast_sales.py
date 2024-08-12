@@ -9,10 +9,12 @@ from iowa_forecast import ml_train
 from iowa_forecast.utils import (create_bigquery_table_from_pandas,
                                  create_dataset_if_not_found)
 
-
-PROJECT_ID = os.environ.get("PROJECT_ID")
-DATASET_NAME = os.environ.get("DATASET_NAME", "bqmlforecast")
-CREDENTIALS_FILE = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+# PROJECT_ID = os.environ.get("PROJECT_ID")
+PROJECT_ID = "iowa-liquor-sales-forecast-v4"
+# DATASET_NAME = os.environ.get("DATASET_NAME", "bqmlforecast")
+DATASET_NAME = "bqmlforecast"
+# CREDENTIALS_FILE = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "./iowa-sales-forecast-service-account.json")
+CREDENTIALS_FILE = "./iowa-sales-forecast-service-account.json"
 HORIZON = 30  # Days
 
 # Validate the presence of CREDENTIALS_FILE
@@ -30,11 +32,13 @@ if not CREDENTIALS_FILE:
         "Then run the generated container using the command:\n\n\t"
         "docker run -p 8080:8080 iowa-sales-forecast"
     )
-elif not os.path.isfile(CREDENTIALS_FILE):
+if not os.path.isfile(CREDENTIALS_FILE):
     raise FileNotFoundError(
-        f"The file specified in the GOOGLE_APPLICATION_CREDENTIALS environment variable does not exist: {CREDENTIALS_FILE}. "
-        "Please ensure that the file path is correct and that the file is accessible inside the Docker container. "
-        "For more details on handling credentials in Docker, see: https://cloud.google.com/docs/authentication/production#passing_code"
+        "The file specified in the GOOGLE_APPLICATION_CREDENTIALS environment variable "
+        f"does not exist: {CREDENTIALS_FILE}. Please ensure that the file path is correct and that "
+        "the file is accessible inside the Docker container. "
+        "For more details on handling credentials in Docker, "
+        "see: https://cloud.google.com/docs/authentication/production#passing_code"
     )
 
 

@@ -4,6 +4,7 @@ General utility functions.
 from __future__ import annotations
 
 from typing import List, Tuple
+import re
 
 import pandas as pd
 import fnmatch
@@ -251,3 +252,102 @@ def list_tables_with_pattern(
     ]
 
     return matching_tables
+
+
+def parse_combined_string(combined: str) -> dict:
+    """Parse a combined offset string into its components.
+
+    Parameters
+    ----------
+    combined : str
+        A combined string specifying the offset, e.g., `'2Y3M2W1D'`.
+
+    Returns
+    -------
+    dict
+        A dictionary with keys `'years'`, `'months'`, `'weeks'`, `'days'`
+        and their corresponding values.
+
+    Raises
+    ------
+    ValueError
+        If the combined string is invalid.
+    """
+    pattern = re.compile(
+        r'(?P<years>\d+Y)?(?P<months>\d+M)?(?P<weeks>\d+W)?(?P<days>\d+D)?',
+        re.IGNORECASE
+    )
+    match = pattern.fullmatch(combined)
+    if not match:
+        raise ValueError(f"The specified `combined` string {combined} is not valid.")
+
+    return {k: int(v[:-1]) if v else 0 for k, v in match.groupdict().items()}
+
+
+def create_date_offset_from_parts(years=0, months=0, weeks=0, days=0) -> pd.DateOffset:
+    """Create a `pandas.DateOffset` object from individual time components.
+
+    Parameters
+    ----------
+    years : int, default=0
+        Number of years for the offset.
+    months : int, default=0
+        Number of months for the offset.
+    weeks : int, default=0
+        Number of weeks for the offset.
+    days : int, default=0
+        Number of days for the offset.
+
+    Returns
+    -------
+    pd.DateOffset
+        A `pandas.DateOffset` object for the specified time components.
+    """
+    return pd.DateOffset(years=years, months=months, weeks=weeks, days=days)
+
+
+def date_offset(*args: Union[int, str], freq: str = None) -> pd.DateOffset:
+    """
+    Generate a `pandas.DateOffset` based on the given frequency and value or a combined string.
+
+    Parameters
+    ----------
+    args : int or str
+        * If one argument is provided, it should be a combined string specifying
+          the offset, e.g., `'2Y3M2W1D'`.
+        * If two arguments are provided, they should be `n` (int) and `freq` (str).
+    freq : str {'days', 'weeks', 'months', 'years'}, optional
+        The frequency type. Valid options are `'days'`, `'weeks'`, `'months'`, `'years'`.
+        Ignored if `combined` is provided.
+
+    Returns
+    -------
+    pd.DateOffset
+        A `pandas.DateOffset` object for the specified frequency and value.
+
+    Raises
+    ------
+    ValueError
+        If `freq` is not one of the valid options or if the combined string is invalid.
+    """
+    if len(args) == 1 and isinstance(args[0], str):
+        combined = args[0]
+        offset_parts = parse_combined_string(combined)
+        return create_date_offset_from_parts(**offset_parts)
+
+    if len(args) == 2 and isinstance(args[0], int) and isinstance(args[1], str):
+        n, freq = args
+        freq = freq.lower()
+        valid_freqs = {"d": "days", "day": "days", "days": "days",
+                       "w": "weeks", "week": "weeks", "weeks": "weeks",
+                       "m": "months", "month": "months", "months": "months",
+                       "y": "years", "year": "years", "years": "years"}
+
+        if freq not in valid_freqs:
+            raise ValueError(f"The specified `freq` {freq} is not a valid frequency. "
+                             "Valid frequencies are: 'days', 'weeks', 'months', 'years'.")
+
+        return create_date_offset_from_parts(**{valid_freqs[freq]: n})
+
+    raise ValueError(
+        "Either provide a single combined string or both `n` and `freq` as arguments.")

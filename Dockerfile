@@ -25,7 +25,7 @@ EXPOSE 8080
 # Define environment variables
 
 # Project ID where the tables and models will be saved to inside BigQuery
-ENV PROJECT_ID "iowa-liquor-sales-forecast-v2"
+ENV PROJECT_ID "iowa-liquor-sales-forecast-v4"
 
 # Dataset name where the tables and models will be stored to
 ENV DATASET_NAME "bqmlforecast"
@@ -35,4 +35,4 @@ ENV GOOGLE_APPLICATION_CREDENTIALS="/gcloud/application_default_credentials.json
 
 
 # Run app.py when the container launches
-ENTRYPOINT ["python", "pipelines/execute_load_data.py"]
+ENTRYPOINT ["python", "pipelines/train_model_and_forecast_sales.py"]

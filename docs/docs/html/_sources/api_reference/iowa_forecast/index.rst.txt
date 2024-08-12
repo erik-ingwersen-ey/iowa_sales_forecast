@@ -8,5 +8,6 @@ iowa\_forecast
    load_data
    ml_eval
    ml_train
+   models_configs
    plots
    utils

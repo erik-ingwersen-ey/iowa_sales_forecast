@@ -56,54 +56,22 @@ import pandas as pd
 from google.cloud import bigquery
 from rich.progress import track
 
-from iowa_forecast.utils import list_tables_with_pattern
-
-
-def date_offset(n: int, freq: str) -> pd.DateOffset:
-    """Generate a pandas DateOffset based on the given frequency and value.
-
-    Parameters
-    ----------
-    n : int
-        The number of time units for the offset.
-    freq : str {'days', 'weeks', 'months', 'years'}
-        The frequency type. Valid options are 'days', 'weeks', 'months', 'years'.
-
-    Returns
-    -------
-    pd.DateOffset
-        A DateOffset object for the specified frequency and value.
-
-    Raises
-    ------
-    ValueError
-        If `freq` is not one of the valid options.
-    """
-    if freq == "days":
-        return pd.DateOffset(days=n)
-    if freq == "weeks":
-        return pd.DateOffset(weeks=n)
-    if freq == "months":
-        return pd.DateOffset(months=n)
-    if freq == "years":
-        return pd.DateOffset(years=n)
-    raise ValueError(
-        f"The specified `freq` {freq} is not a valid frequency. "
-        "Valid frequencies are: 'days', 'weeks', 'months', 'years'."
-    )
+from iowa_forecast.utils import list_tables_with_pattern, date_offset
 
 
 def get_item_names_filter(items_list: List[str] | str) -> str:
     """
-    Generate a "WHERE" clause component to filter values from column `"item_name"`.
+    Generate a `"WHERE"` clause component to filter values from column `"item_name"`.
 
+    Parameters
+    ----------
     items_list : List[str] | str
-        Item name or names to add to the "WHERE" clause component.
+        Item name or names to add to the `"WHERE"` clause component.
 
     Returns
     -------
     str
-        The "WHERE" clause component that can be used to filter values from column `"item_name"`.
+        The `"WHERE"` clause component that can be used to filter values from column `"item_name"`.
 
     Examples
     --------
@@ -121,15 +89,17 @@ def get_item_names_filter(items_list: List[str] | str) -> str:
 
 def get_min_datapoints_filter(min_size: int) -> str:
     """
-    Generate a "WHERE" clause to filter items that have at least `min_size` observations.
+    Generate a `"WHERE"` clause to filter items that have at least `min_size` observations.
 
+    Parameters
+    ----------
     min_size : int
-        Minimum number of observations to use as value for the "WHERE" clause.
+        Minimum number of observations to use as value for the `"WHERE"` clause.
 
     Returns
     -------
     str
-        The "WHERE" clause component.
+        The `"WHERE"` clause component.
     """
     return f"""
     WHERE
