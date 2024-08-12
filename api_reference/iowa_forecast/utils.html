@@ -209,6 +209,7 @@
 <li class="toctree-l3"><a class="reference internal" href="load_data.html">load_data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ml_eval.html">ml_eval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ml_train.html">ml_train</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_configs.html">models_configs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plots.html">plots</a></li>
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">utils</a></li>
 </ul>
@@ -416,6 +417,78 @@ Ensure that the pattern provided is compatible with <code class="code docutils l
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt class="sig sig-object py" id="iowa_forecast.utils.parse_combined_string">
+<span class="sig-prename descclassname"><span class="pre">iowa_forecast.utils.</span></span><span class="sig-name descname"><span class="pre">parse_combined_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">combined</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../../_modules/iowa_forecast/utils.html#parse_combined_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iowa_forecast.utils.parse_combined_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a combined offset string into its components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>combined</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – A combined string specifying the offset, e.g., <code class="code docutils literal notranslate"><span class="pre">'2Y3M2W1D'</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> – A dictionary with keys <code class="code docutils literal notranslate"><span class="pre">'years'</span></code>, <code class="code docutils literal notranslate"><span class="pre">'months'</span></code>, <code class="code docutils literal notranslate"><span class="pre">'weeks'</span></code>, <code class="code docutils literal notranslate"><span class="pre">'days'</span></code>
+and their corresponding values.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If the combined string is invalid.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iowa_forecast.utils.create_date_offset_from_parts">
+<span class="sig-prename descclassname"><span class="pre">iowa_forecast.utils.</span></span><span class="sig-name descname"><span class="pre">create_date_offset_from_parts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">years</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">months</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">weeks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">days</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DateOffset</span></span></span><a class="reference internal" href="../../_modules/iowa_forecast/utils.html#create_date_offset_from_parts"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iowa_forecast.utils.create_date_offset_from_parts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a <code class="code docutils literal notranslate"><span class="pre">pandas.DateOffset</span></code> object from individual time components.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>years</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0</span></code>) – Number of years for the offset.</p></li>
+<li><p><strong>months</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0</span></code>) – Number of months for the offset.</p></li>
+<li><p><strong>weeks</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0</span></code>) – Number of weeks for the offset.</p></li>
+<li><p><strong>days</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">0</span></code>) – Number of days for the offset.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DateOffset</span></code> – A <code class="code docutils literal notranslate"><span class="pre">pandas.DateOffset</span></code> object for the specified time components.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><em>DateOffset</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="iowa_forecast.utils.date_offset">
+<span class="sig-prename descclassname"><span class="pre">iowa_forecast.utils.</span></span><span class="sig-name descname"><span class="pre">date_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">pd.DateOffset</span></span></span><a class="reference internal" href="../../_modules/iowa_forecast/utils.html#date_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iowa_forecast.utils.date_offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate a <code class="code docutils literal notranslate"><span class="pre">pandas.DateOffset</span></code> based on the given frequency and value or a combined string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>) – <ul>
+<li><p>If one argument is provided, it should be a combined string specifying
+the offset, e.g., <code class="code docutils literal notranslate"><span class="pre">'2Y3M2W1D'</span></code>.</p></li>
+<li><p>If two arguments are provided, they should be <code class="code docutils literal notranslate"><span class="pre">n</span></code> (int) and <code class="code docutils literal notranslate"><span class="pre">freq</span></code> (str).</p></li>
+</ul>
+</p></li>
+<li><p><strong>freq</strong> (str <code class="docutils literal notranslate"><span class="pre">{'days',</span> <span class="pre">'weeks',</span> <span class="pre">'months',</span> <span class="pre">'years'}</span></code>, <em>optional</em>) – The frequency type. Valid options are <code class="code docutils literal notranslate"><span class="pre">'days'</span></code>, <code class="code docutils literal notranslate"><span class="pre">'weeks'</span></code>, <code class="code docutils literal notranslate"><span class="pre">'months'</span></code>, <code class="code docutils literal notranslate"><span class="pre">'years'</span></code>.
+Ignored if <code class="code docutils literal notranslate"><span class="pre">combined</span></code> is provided.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DateOffset</span></code> – A <code class="code docutils literal notranslate"><span class="pre">pandas.DateOffset</span></code> object for the specified frequency and value.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If <code class="code docutils literal notranslate"><span class="pre">freq</span></code> is not one of the valid options or if the combined string is invalid.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>pd.DateOffset</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
         </article>
@@ -471,6 +544,9 @@ Ensure that the pattern provided is compatible with <code class="code docutils l
 <li><a class="reference internal" href="#iowa_forecast.utils.create_bigquery_table_from_pandas"><code class="docutils literal notranslate"><span class="pre">create_bigquery_table_from_pandas()</span></code></a></li>
 <li><a class="reference internal" href="#iowa_forecast.utils.create_dataset_if_not_found"><code class="docutils literal notranslate"><span class="pre">create_dataset_if_not_found()</span></code></a></li>
 <li><a class="reference internal" href="#iowa_forecast.utils.list_tables_with_pattern"><code class="docutils literal notranslate"><span class="pre">list_tables_with_pattern()</span></code></a></li>
+<li><a class="reference internal" href="#iowa_forecast.utils.parse_combined_string"><code class="docutils literal notranslate"><span class="pre">parse_combined_string()</span></code></a></li>
+<li><a class="reference internal" href="#iowa_forecast.utils.create_date_offset_from_parts"><code class="docutils literal notranslate"><span class="pre">create_date_offset_from_parts()</span></code></a></li>
+<li><a class="reference internal" href="#iowa_forecast.utils.date_offset"><code class="docutils literal notranslate"><span class="pre">date_offset()</span></code></a></li>
 </ul>
 </li>
 </ul>

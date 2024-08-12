@@ -1,5 +1,5 @@
 API Reference
-==============
+=============
 
 This page gives an overview of all public pandas objects, functions and methods.
 All functions exposed in `iowa_forecast.*` namespace are public.
@@ -12,12 +12,15 @@ The `iowa_forecast` package contains the following modules:
 
 * `iowa_forecast.ml_train`: BigQuery Model Training and Execution Module.
 
+* `iowa_forecast.models_configs`: Classes for managing and validating
+  configuration parameters
+
 * `iowa_forecast.plots`: Time Series Plotting and Date Handling Module.
 
 * `iowa_forecast.utils`: General utility functions Module.
 
 iowa\_forecast
--------------
+--------------
 
 .. toctree::
    :maxdepth: 2

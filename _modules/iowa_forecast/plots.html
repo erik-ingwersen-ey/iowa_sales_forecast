@@ -208,6 +208,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/load_data.html">load_data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/ml_eval.html">ml_eval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/ml_train.html">ml_train</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/models_configs.html">models_configs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/plots.html">plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/utils.html">utils</a></li>
 </ul>
@@ -279,7 +280,7 @@
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="kn">import</span> <span class="n">find_peaks</span>
 
 
-<div class="viewcode-block" id="convert_to_datetime"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.plots.convert_to_datetime">[docs]</a><span class="k">def</span> <span class="nf">convert_to_datetime</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="convert_to_datetime"><a class="viewcode-back" href="../../api_reference/iowa_forecast/plots.html#iowa_forecast.plots.convert_to_datetime">[docs]</a><span class="k">def</span> <span class="nf">convert_to_datetime</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert a specified column in a DataFrame to datetime format.</span>
 
@@ -325,7 +326,7 @@
     <span class="k">return</span> <span class="n">dataframe</span></div>
 
 
-<div class="viewcode-block" id="filter_by_date"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.plots.filter_by_date">[docs]</a><span class="k">def</span> <span class="nf">filter_by_date</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<div class="viewcode-block" id="filter_by_date"><a class="viewcode-back" href="../../api_reference/iowa_forecast/plots.html#iowa_forecast.plots.filter_by_date">[docs]</a><span class="k">def</span> <span class="nf">filter_by_date</span><span class="p">(</span><span class="n">dataframe</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">col</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter a DataFrame by a start date.</span>
 
 <span class="sd">    Parameters</span>
@@ -348,7 +349,7 @@
     <span class="k">return</span> <span class="n">dataframe</span></div>
 
 
-<div class="viewcode-block" id="plot_series"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.plots.plot_series">[docs]</a><span class="k">def</span> <span class="nf">plot_series</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">linestyle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="plot_series"><a class="viewcode-back" href="../../api_reference/iowa_forecast/plots.html#iowa_forecast.plots.plot_series">[docs]</a><span class="k">def</span> <span class="nf">plot_series</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">linestyle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Plot a series of data with optional markers.</span>
 
@@ -397,7 +398,7 @@
         <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">marker</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plot_historical_and_forecast"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.plots.plot_historical_and_forecast">[docs]</a><span class="k">def</span> <span class="nf">plot_historical_and_forecast</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments, too-many-locals</span>
+<div class="viewcode-block" id="plot_historical_and_forecast"><a class="viewcode-back" href="../../api_reference/iowa_forecast/plots.html#iowa_forecast.plots.plot_historical_and_forecast">[docs]</a><span class="k">def</span> <span class="nf">plot_historical_and_forecast</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments, too-many-locals</span>
     <span class="n">input_timeseries</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">timestamp_col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">data_col_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>

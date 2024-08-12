@@ -208,6 +208,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/load_data.html">load_data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/ml_eval.html">ml_eval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/ml_train.html">ml_train</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/models_configs.html">models_configs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/plots.html">plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/utils.html">utils</a></li>
 </ul>
@@ -306,7 +307,7 @@
 <span class="kn">from</span> <span class="nn">iowa_forecast.utils</span> <span class="kn">import</span> <span class="n">normalize_item_name</span>
 
 
-<div class="viewcode-block" id="evaluate_models"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.evaluate_models">[docs]</a><span class="k">def</span> <span class="nf">evaluate_models</span><span class="p">(</span>
+<div class="viewcode-block" id="evaluate_models"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.evaluate_models">[docs]</a><span class="k">def</span> <span class="nf">evaluate_models</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">items_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -377,7 +378,7 @@
     <span class="k">return</span> <span class="n">eval_df</span></div>
 
 
-<div class="viewcode-block" id="get_data"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.get_data">[docs]</a><span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="viewcode-block" id="get_data"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.get_data">[docs]</a><span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span> <span class="n">query</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Execute a BigQuery SQL query and return the result as a DataFrame.</span>
 
@@ -397,7 +398,7 @@
     <span class="k">return</span> <span class="n">query_job</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="create_query"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.create_query">[docs]</a><span class="k">def</span> <span class="nf">create_query</span><span class="p">(</span>
+<div class="viewcode-block" id="create_query"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.create_query">[docs]</a><span class="k">def</span> <span class="nf">create_query</span><span class="p">(</span>
     <span class="n">table</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">date_filter</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -431,7 +432,7 @@
     <span class="k">return</span> <span class="n">query</span></div>
 
 
-<div class="viewcode-block" id="get_train_data"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.get_train_data">[docs]</a><span class="k">def</span> <span class="nf">get_train_data</span><span class="p">(</span>
+<div class="viewcode-block" id="get_train_data"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.get_train_data">[docs]</a><span class="k">def</span> <span class="nf">get_train_data</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.training_data&quot;</span><span class="p">,</span>
@@ -468,7 +469,7 @@
     <span class="k">return</span> <span class="n">get_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_actual_data"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.get_actual_data">[docs]</a><span class="k">def</span> <span class="nf">get_actual_data</span><span class="p">(</span>
+<div class="viewcode-block" id="get_actual_data"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.get_actual_data">[docs]</a><span class="k">def</span> <span class="nf">get_actual_data</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -503,7 +504,7 @@
     <span class="k">return</span> <span class="n">get_data</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">query</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">({</span><span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">})</span></div>
 
 
-<div class="viewcode-block" id="get_predictions"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.get_predictions">[docs]</a><span class="k">def</span> <span class="nf">get_predictions</span><span class="p">(</span>
+<div class="viewcode-block" id="get_predictions"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.get_predictions">[docs]</a><span class="k">def</span> <span class="nf">get_predictions</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -556,7 +557,7 @@
     <span class="k">return</span> <span class="n">predictions_df</span></div>
 
 
-<div class="viewcode-block" id="evaluate_predictions"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.evaluate_predictions">[docs]</a><span class="k">def</span> <span class="nf">evaluate_predictions</span><span class="p">(</span>
+<div class="viewcode-block" id="evaluate_predictions"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.evaluate_predictions">[docs]</a><span class="k">def</span> <span class="nf">evaluate_predictions</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -658,7 +659,7 @@
     <span class="k">return</span> <span class="n">train_df</span><span class="p">,</span> <span class="n">forecast_df</span></div>
 
 
-<div class="viewcode-block" id="multi_evaluate_predictions"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.multi_evaluate_predictions">[docs]</a><span class="k">def</span> <span class="nf">multi_evaluate_predictions</span><span class="p">(</span>
+<div class="viewcode-block" id="multi_evaluate_predictions"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.multi_evaluate_predictions">[docs]</a><span class="k">def</span> <span class="nf">multi_evaluate_predictions</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">items_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -730,7 +731,7 @@
     <span class="k">return</span> <span class="n">results_dict</span></div>
 
 
-<div class="viewcode-block" id="explain_model"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.ml_eval.explain_model">[docs]</a><span class="k">def</span> <span class="nf">explain_model</span><span class="p">(</span>
+<div class="viewcode-block" id="explain_model"><a class="viewcode-back" href="../../api_reference/iowa_forecast/ml_eval.html#iowa_forecast.ml_eval.explain_model">[docs]</a><span class="k">def</span> <span class="nf">explain_model</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">item_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.training_data&quot;</span><span class="p">,</span>

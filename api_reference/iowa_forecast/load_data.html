@@ -209,6 +209,7 @@
 <li class="toctree-l3 current current-page"><a class="current reference internal" href="#">load_data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ml_eval.html">ml_eval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="ml_train.html">ml_train</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_configs.html">models_configs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="plots.html">plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html">utils</a></li>
 </ul>
@@ -295,42 +296,15 @@ data for time series forecasting in various business contexts.</p>
 </div>
 </section>
 <dl class="py function">
-<dt class="sig sig-object py" id="iowa_forecast.load_data.date_offset">
-<span class="sig-prename descclassname"><span class="pre">iowa_forecast.load_data.</span></span><span class="sig-name descname"><span class="pre">date_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DateOffset</span></span></span><a class="reference internal" href="../../_modules/iowa_forecast/load_data.html#date_offset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iowa_forecast.load_data.date_offset" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a pandas DateOffset based on the given frequency and value.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – The number of time units for the offset.</p></li>
-<li><p><strong>freq</strong> (str <code class="docutils literal notranslate"><span class="pre">{'days',</span> <span class="pre">'weeks',</span> <span class="pre">'months',</span> <span class="pre">'years'}</span></code>) – The frequency type. Valid options are ‘days’, ‘weeks’, ‘months’, ‘years’.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pd.DateOffset</span></code> – A DateOffset object for the specified frequency and value.</p>
-</dd>
-<dt class="field-odd">Raises<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.12)"><strong>ValueError</strong></a> – If <code class="code docutils literal notranslate"><span class="pre">freq</span></code> is not one of the valid options.</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p><em>DateOffset</em></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt class="sig sig-object py" id="iowa_forecast.load_data.get_item_names_filter">
 <span class="sig-prename descclassname"><span class="pre">iowa_forecast.load_data.</span></span><span class="sig-name descname"><span class="pre">get_item_names_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">items_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/iowa_forecast/load_data.html#get_item_names_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iowa_forecast.load_data.get_item_names_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a “WHERE” clause component to filter values from column <code class="code docutils literal notranslate"><span class="pre">&quot;item_name&quot;</span></code>.</p>
-<dl class="simple">
-<dt>items_list<span class="classifier">List[str] | str</span></dt><dd><p>Item name or names to add to the “WHERE” clause component.</p>
-</dd>
-</dl>
+<dd><p>Generate a <code class="code docutils literal notranslate"><span class="pre">&quot;WHERE&quot;</span></code> clause component to filter values from column <code class="code docutils literal notranslate"><span class="pre">&quot;item_name&quot;</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> – The “WHERE” clause component that can be used to filter values from column <code class="code docutils literal notranslate"><span class="pre">&quot;item_name&quot;</span></code>.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>items_list</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">List[str]</span> <span class="pre">|</span> <span class="pre">str</span></code>) – Item name or names to add to the <code class="code docutils literal notranslate"><span class="pre">&quot;WHERE&quot;</span></code> clause component.</p>
 </dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>items_list</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>] </em><em>| </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – </p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> – The <code class="code docutils literal notranslate"><span class="pre">&quot;WHERE&quot;</span></code> clause component that can be used to filter values from column <code class="code docutils literal notranslate"><span class="pre">&quot;item_name&quot;</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
@@ -350,17 +324,13 @@ data for time series forecasting in various business contexts.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="iowa_forecast.load_data.get_min_datapoints_filter">
 <span class="sig-prename descclassname"><span class="pre">iowa_forecast.load_data.</span></span><span class="sig-name descname"><span class="pre">get_min_datapoints_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">min_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/iowa_forecast/load_data.html#get_min_datapoints_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#iowa_forecast.load_data.get_min_datapoints_filter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a “WHERE” clause to filter items that have at least <code class="code docutils literal notranslate"><span class="pre">min_size</span></code> observations.</p>
-<dl class="simple">
-<dt>min_size<span class="classifier">int</span></dt><dd><p>Minimum number of observations to use as value for the “WHERE” clause.</p>
-</dd>
-</dl>
+<dd><p>Generate a <code class="code docutils literal notranslate"><span class="pre">&quot;WHERE&quot;</span></code> clause to filter items that have at least <code class="code docutils literal notranslate"><span class="pre">min_size</span></code> observations.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> – The “WHERE” clause component.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>min_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>) – Minimum number of observations to use as value for the <code class="code docutils literal notranslate"><span class="pre">&quot;WHERE&quot;</span></code> clause.</p>
 </dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>min_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – </p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> – The <code class="code docutils literal notranslate"><span class="pre">&quot;WHERE&quot;</span></code> clause component.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)">str</a></p>
@@ -625,7 +595,6 @@ weather information and lag features.</p>
             <ul>
 <li><a class="reference internal" href="#">load_data</a><ul>
 <li><a class="reference internal" href="#functions">Functions</a></li>
-<li><a class="reference internal" href="#iowa_forecast.load_data.date_offset"><code class="docutils literal notranslate"><span class="pre">date_offset()</span></code></a></li>
 <li><a class="reference internal" href="#iowa_forecast.load_data.get_item_names_filter"><code class="docutils literal notranslate"><span class="pre">get_item_names_filter()</span></code></a></li>
 <li><a class="reference internal" href="#iowa_forecast.load_data.get_min_datapoints_filter"><code class="docutils literal notranslate"><span class="pre">get_min_datapoints_filter()</span></code></a></li>
 <li><a class="reference internal" href="#iowa_forecast.load_data.get_training_data"><code class="docutils literal notranslate"><span class="pre">get_training_data()</span></code></a></li>

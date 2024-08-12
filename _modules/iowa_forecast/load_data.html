@@ -208,6 +208,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/load_data.html">load_data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/ml_eval.html">ml_eval</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/ml_train.html">ml_train</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/models_configs.html">models_configs</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/plots.html">plots</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../api_reference/iowa_forecast/utils.html">utils</a></li>
 </ul>
@@ -306,54 +307,22 @@
 <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="kn">import</span> <span class="n">bigquery</span>
 <span class="kn">from</span> <span class="nn">rich.progress</span> <span class="kn">import</span> <span class="n">track</span>
 
-<span class="kn">from</span> <span class="nn">iowa_forecast.utils</span> <span class="kn">import</span> <span class="n">list_tables_with_pattern</span>
+<span class="kn">from</span> <span class="nn">iowa_forecast.utils</span> <span class="kn">import</span> <span class="n">list_tables_with_pattern</span><span class="p">,</span> <span class="n">date_offset</span>
 
 
-<div class="viewcode-block" id="date_offset"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.date_offset">[docs]</a><span class="k">def</span> <span class="nf">date_offset</span><span class="p">(</span><span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">freq</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate a pandas DateOffset based on the given frequency and value.</span>
+<div class="viewcode-block" id="get_item_names_filter"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.get_item_names_filter">[docs]</a><span class="k">def</span> <span class="nf">get_item_names_filter</span><span class="p">(</span><span class="n">items_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generate a `&quot;WHERE&quot;` clause component to filter values from column `&quot;item_name&quot;`.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    n : int</span>
-<span class="sd">        The number of time units for the offset.</span>
-<span class="sd">    freq : str {&#39;days&#39;, &#39;weeks&#39;, &#39;months&#39;, &#39;years&#39;}</span>
-<span class="sd">        The frequency type. Valid options are &#39;days&#39;, &#39;weeks&#39;, &#39;months&#39;, &#39;years&#39;.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    pd.DateOffset</span>
-<span class="sd">        A DateOffset object for the specified frequency and value.</span>
-
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    ValueError</span>
-<span class="sd">        If `freq` is not one of the valid options.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="s2">&quot;days&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="s2">&quot;weeks&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">weeks</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="s2">&quot;months&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">months</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">freq</span> <span class="o">==</span> <span class="s2">&quot;years&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="n">years</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;The specified `freq` </span><span class="si">{</span><span class="n">freq</span><span class="si">}</span><span class="s2"> is not a valid frequency. &quot;</span>
-        <span class="s2">&quot;Valid frequencies are: &#39;days&#39;, &#39;weeks&#39;, &#39;months&#39;, &#39;years&#39;.&quot;</span>
-    <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="get_item_names_filter"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.get_item_names_filter">[docs]</a><span class="k">def</span> <span class="nf">get_item_names_filter</span><span class="p">(</span><span class="n">items_list</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generate a &quot;WHERE&quot; clause component to filter values from column `&quot;item_name&quot;`.</span>
-
 <span class="sd">    items_list : List[str] | str</span>
-<span class="sd">        Item name or names to add to the &quot;WHERE&quot; clause component.</span>
+<span class="sd">        Item name or names to add to the `&quot;WHERE&quot;` clause component.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
-<span class="sd">        The &quot;WHERE&quot; clause component that can be used to filter values from column `&quot;item_name&quot;`.</span>
+<span class="sd">        The `&quot;WHERE&quot;` clause component that can be used to filter values from column `&quot;item_name&quot;`.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -369,17 +338,19 @@
     <span class="k">return</span> <span class="s2">&quot;(&quot;</span> <span class="o">+</span> <span class="s2">&quot; OR &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;item_name = &quot;</span><span class="si">{</span><span class="n">item_name</span><span class="si">}</span><span class="s1">&quot;&#39;</span> <span class="k">for</span> <span class="n">item_name</span> <span class="ow">in</span> <span class="n">items_list</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;)&quot;</span></div>
 
 
-<div class="viewcode-block" id="get_min_datapoints_filter"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.get_min_datapoints_filter">[docs]</a><span class="k">def</span> <span class="nf">get_min_datapoints_filter</span><span class="p">(</span><span class="n">min_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_min_datapoints_filter"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.get_min_datapoints_filter">[docs]</a><span class="k">def</span> <span class="nf">get_min_datapoints_filter</span><span class="p">(</span><span class="n">min_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Generate a &quot;WHERE&quot; clause to filter items that have at least `min_size` observations.</span>
+<span class="sd">    Generate a `&quot;WHERE&quot;` clause to filter items that have at least `min_size` observations.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
 <span class="sd">    min_size : int</span>
-<span class="sd">        Minimum number of observations to use as value for the &quot;WHERE&quot; clause.</span>
+<span class="sd">        Minimum number of observations to use as value for the `&quot;WHERE&quot;` clause.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    str</span>
-<span class="sd">        The &quot;WHERE&quot; clause component.</span>
+<span class="sd">        The `&quot;WHERE&quot;` clause component.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">    WHERE</span>
@@ -388,7 +359,7 @@
 <span class="s2">    &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="get_training_data"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.get_training_data">[docs]</a><span class="k">def</span> <span class="nf">get_training_data</span><span class="p">(</span>
+<div class="viewcode-block" id="get_training_data"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.get_training_data">[docs]</a><span class="k">def</span> <span class="nf">get_training_data</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;bqmlforecast.training_data&#39;</span><span class="p">,</span>
     <span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -619,7 +590,7 @@
     <span class="k">return</span> <span class="n">client</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SELECT * FROM `</span><span class="si">{</span><span class="n">table_name</span><span class="si">}</span><span class="s2">`&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="get_year_weather_query"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.get_year_weather_query">[docs]</a><span class="k">def</span> <span class="nf">get_year_weather_query</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;IA&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_year_weather_query"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.get_year_weather_query">[docs]</a><span class="k">def</span> <span class="nf">get_year_weather_query</span><span class="p">(</span><span class="n">year</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;IA&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate an SQL query to retrieve weather data for a specific year and state.</span>
 
@@ -650,7 +621,7 @@
 <span class="s2">    &quot;&quot;&quot;</span></div>
 
 
-<div class="viewcode-block" id="get_weather_query"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.get_weather_query">[docs]</a><span class="k">def</span> <span class="nf">get_weather_query</span><span class="p">(</span><span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;IA&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="get_weather_query"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.get_weather_query">[docs]</a><span class="k">def</span> <span class="nf">get_weather_query</span><span class="p">(</span><span class="n">start_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">end_date</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;IA&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generate an SQL query to retrieve weather data for a given date range.</span>
 
@@ -673,7 +644,7 @@
     <span class="k">return</span> <span class="s2">&quot; UNION ALL &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">weather_year_queries</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="create_forecast_features_query"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.create_forecast_features_query">[docs]</a><span class="k">def</span> <span class="nf">create_forecast_features_query</span><span class="p">(</span>
+<div class="viewcode-block" id="create_forecast_features_query"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.create_forecast_features_query">[docs]</a><span class="k">def</span> <span class="nf">create_forecast_features_query</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">dataset_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast&quot;</span><span class="p">,</span>
     <span class="n">forecast_tables_pattern</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;forecast_*&quot;</span><span class="p">,</span>
@@ -773,7 +744,7 @@
     <span class="k">return</span> <span class="n">query</span></div>
 
 
-<div class="viewcode-block" id="create_future_data"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.create_future_data">[docs]</a><span class="k">def</span> <span class="nf">create_future_data</span><span class="p">(</span>
+<div class="viewcode-block" id="create_future_data"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.create_future_data">[docs]</a><span class="k">def</span> <span class="nf">create_future_data</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">train_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.training_data&quot;</span><span class="p">,</span>
     <span class="n">test_table_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.test_data&quot;</span><span class="p">,</span>
@@ -950,7 +921,7 @@
     <span class="n">future_data_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="create_future_feature_table"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.create_future_feature_table">[docs]</a><span class="k">def</span> <span class="nf">create_future_feature_table</span><span class="p">(</span>
+<div class="viewcode-block" id="create_future_feature_table"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.create_future_feature_table">[docs]</a><span class="k">def</span> <span class="nf">create_future_feature_table</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">table_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -986,7 +957,7 @@
     <span class="n">create_table_job</span><span class="o">.</span><span class="n">result</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="create_future_feature_tables"><a class="viewcode-back" href="../../iowa_forecast.html#iowa_forecast.load_data.create_future_feature_tables">[docs]</a><span class="k">def</span> <span class="nf">create_future_feature_tables</span><span class="p">(</span>
+<div class="viewcode-block" id="create_future_feature_tables"><a class="viewcode-back" href="../../api_reference/iowa_forecast/load_data.html#iowa_forecast.load_data.create_future_feature_tables">[docs]</a><span class="k">def</span> <span class="nf">create_future_feature_tables</span><span class="p">(</span>
     <span class="n">client</span><span class="p">:</span> <span class="n">bigquery</span><span class="o">.</span><span class="n">Client</span><span class="p">,</span>
     <span class="n">columns</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bqmlforecast.arima_model&quot;</span><span class="p">,</span>
