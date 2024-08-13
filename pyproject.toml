@@ -1,8 +1,8 @@
 [tool.poetry]
-name = 'bunge'
+name = 'iowa_sales_forecast'
 version = '0.0.2'
 description = 'Iowa liquor sales forecasting model.'
-license = 'MIT.'
+license = 'MIT'
 authors = ['Ingwersen_erik <erik.ingwersen@br.ey.com>']
 readme = 'README.md'
 repository = 'https://github.com/erik-ingwersen-ey/iowa_liquor_sales_forecast'
